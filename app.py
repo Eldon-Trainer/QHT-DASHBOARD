@@ -75,3 +75,73 @@ else:
         st.dataframe(df)
     else:
         st.info(f"No data available for {selected_module} in {selected_tab}")
+        import csv, hashlib
+
+USER_FILE = "user.csv"
+DEFAULT_PASSWORD = "qht@123"
+
+def hash_password(password):
+    return hashlib.sha1(password.encode()).hexdigest()
+
+def load_users():
+    users = {}
+    with open(USER_FILE, newline="") as csvfile:
+        reader = csv.DictReader(csvfile)
+        for row in reader:
+            users[row["username"]] = {
+                "password_hash": row["password_hash"],
+                "role": row["role"],
+                "department": row["department"]
+            }
+    return users
+
+def save_users(users):
+    with open(USER_FILE, "w", newline="") as csvfile:
+        fieldnames = ["username", "password_hash", "role", "department"]
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+        writer.writeheader()
+        for user, data in users.items():
+            writer.writerow({
+                "username": user,
+                "password_hash": data["password_hash"],
+                "role": data["role"],
+                "department": data["department"]
+            })
+
+# ---- Admin Actions ----
+def add_user(username, role, department):
+    users = load_users()
+    if username in users:
+        return "❌ User already exists!"
+    
+    users[username] = {
+        "password_hash": hash_password(DEFAULT_PASSWORD),
+        "role": role,
+        "department": department
+    }
+    save_users(users)
+    return f"✅ User '{username}' added successfully with default password."
+
+def reset_user_password(username):
+    users = load_users()
+    if username not in users:
+        return "❌ User not found!"
+    
+    users[username]["password_hash"] = hash_password(DEFAULT_PASSWORD)
+    save_users(users)
+    return f"✅ Password for '{username}' reset to default ({DEFAULT_PASSWORD})."
+
+def delete_user(username):
+    users = load_users()
+    if username not in users:
+        return "❌ User not found!"
+    
+    del users[username]
+    save_users(users)
+    return f"✅ User '{username}' deleted successfully."
+
+def list_users():
+    users = load_users()
+    for username, data in users.items():
+        print(f"{username} | {data['role']} | {data['department']}")
+
