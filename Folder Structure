@@ -1,0 +1,16 @@
+dashboard/
+│
+├── app.py                  # Main Streamlit dashboard
+├── users.csv               # User credentials & roles
+├── data/
+│   ├── doctors/
+│   │   ├── sop.csv
+│   │   ├── kpi_kra.csv
+│   │   └── training.csv
+│   ├── sales/
+│   │   ├── sop.csv
+│   │   └── ...
+│   └── ...                 # Other departments same structure
+├── requirements.txt
+└── assets/
+    └── logo.png
