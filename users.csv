@@ -1,0 +1,6 @@
+username,password_hash,role,department
+drankur,5e884898da28047151d0e56f8dc6292773603d0d,Doctor,Doctors
+welcome1,5e884898da28047151d0e56f8dc6292773603d0d,Agent,Welcome Team
+sales1,5e884898da28047151d0e56f8dc6292773603d0d,Agent,Sales Team
+da1,5e884898da28047151d0e56f8dc6292773603d0d,Agent,DA Team
+ht1,5e884898da28047151d0e56f8dc6292773603d0d,Agent,HT Team
